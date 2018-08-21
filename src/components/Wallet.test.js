@@ -3,7 +3,13 @@ import { shallow } from 'enzyme'
 import { Wallet } from './Wallet'
 
 describe('Wallet component', () => {
-  const props = { balance: 20 }
+  const mockDeposit = jest.fn()
+  const mockWithdraw = jest.fn()
+  const props = {
+    balance: 20,
+    deposit: mockDeposit,
+    withdraw: mockWithdraw,
+  }
   const wallet = shallow(<Wallet {...props} />)
 
   test('renders properly', () => expect(wallet).toMatchSnapshot())
@@ -31,6 +37,22 @@ describe('Wallet component', () => {
       const { balance } = wallet.state()
 
       expect(balance).toEqual(parseInt(userBalance, 10))
+    })
+
+    describe('and the user wants to make a deposit', () => {
+      beforeEach(() => wallet.find('.btn-deposit').simulate('click'))
+
+      test('dispatches the `deposit()` it receives from props with local balance', () => {
+        expect(mockDeposit).toHaveBeenCalledWith(parseInt(userBalance, 10))
+      })
+    })
+
+    describe('and the user wants to make a withdrawal', () => {
+      beforeEach(() => wallet.find('.btn-withdraw').simulate('click'))
+
+      test('dispatches the `withdraw()` it receives from props with the local balance', () => {
+        expect(mockWithdraw).toHaveBeenCalledWith(parseInt(userBalance, 10))
+      })
     })
   })
 })
