@@ -7,7 +7,29 @@ test('creates an action to set the balance', () => {
     type: constants.SET_BALANCE,
     balance,
   }
-  const result = actions.setBalance(balance)
+  const action = actions.setBalance(balance)
 
-  expect(result).toEqual(expectedAction)
+  expect(action).toEqual(expectedAction)
+})
+
+test('creates an action to deposit into the balance', () => {
+  const deposit = 10
+  const expectedAction = {
+    type: constants.DEPOSIT,
+    deposit,
+  }
+  const action = actions.deposit(deposit)
+
+  expect(action).toEqual(expectedAction)
+})
+
+test('creates an action to withdraw from the balance', () => {
+  const withdrawal = 10
+  const expectedAction = {
+    type: constants.WITHDRAW,
+    withdrawal,
+  }
+  const action = actions.withdraw(withdrawal)
+
+  expect(action).toEqual(expectedAction)
 })
